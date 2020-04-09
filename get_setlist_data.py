@@ -1,8 +1,9 @@
 import requests 
 import json
+import os
 
 #do not push api key
-api_key = ''
+api_key = os.getenv('SL_KEY')
 url = "https://api.setlist.fm/rest/1.0/"
 
 def get_artist_concerts(artist: str):
