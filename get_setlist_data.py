@@ -15,12 +15,13 @@ def get_artist_concerts(artist: str):
     }
     response = requests.request("GET", full_url, headers=headers, data = payload)
     sets = json.loads(response.text)
-    performances = []
+    performances = [[],None]
     for s in sets['setlist']:
         if 'info' in s:
-            performances.append([s['id'], s['info']])
+            performances[0].append([s['id'], s['info']])
         else:
-            performances.append([s['id'],s['eventDate']])
+            performances[0].append([s['id'],s['eventDate']])
+    performances[1] = sets['setlist'][0]['artist']['name']
     return performances
 
 def get_event_setlist(event_id: str):
