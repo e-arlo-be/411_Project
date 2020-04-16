@@ -22,8 +22,8 @@ from get_spotify_data import *
 
 
 # Configuration
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "1075512456563-o0vjl0f2alou54nmpbdbgbksf9npho90.apps.googleusercontent.com")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "zI0q8NSk-To26Hh-6eEo3arv")
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", key In share drive)
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", key In share drive )
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
