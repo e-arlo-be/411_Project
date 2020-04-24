@@ -7,17 +7,17 @@
 </head>
 
 <body>
-        <h3>name: {{ name }}<h3>
-        <h3>email: {{ email }}<h3>
-        <img src="{{ pic }}" alt="User Image">
-        <a class="button" href="/logout">Logout</a>
+    <h3>name: {{ name }}</h3>
+    <h3>email: {{ email }}</h3>
+    <img src="{{ pic }}" alt="User Image">
+    <a class="button" href="/logout">Logout</a>
 
 
 
 
 
 
-    <form action="/" method="POST">
+    <form action="/homepage" method="POST">
         <label for="artist">What artist did you see?</label>
         <select id="artist", name="artist">
             <option value="65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab">Metallica</option>
@@ -31,3 +31,4 @@
         <input type=submit value="submit">
     </form>
 </body>
+</html>

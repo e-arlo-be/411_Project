@@ -14,6 +14,10 @@ import requests
 from db import init_db_command
 from user import User
 
+#spotipy imports
+import spotipy
+import spotipy.util as util
+
 import os
 from flask import Flask, request, redirect, url_for, render_template, session
 from get_setlist_data import *
@@ -22,8 +26,8 @@ from get_spotify_data import *
 
 
 # Configuration
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", key In share drive)
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", key In share drive )
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
@@ -36,6 +40,12 @@ app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+#Spotify Setup
+SPOTIFY_API_BASE = 'https://accounts.spotify.com'
+SPOTIFY_REDIRECT_URI = "https://127.0.0.1:5000/spotify/callback"
+SPOT_ID = os.environ.get("SPOT_ID")
+SPOT_SECRET = os.environ.get("SPOT_SECRET")
+SCOPE = 'playlist-modify-private'
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -150,14 +160,35 @@ def logout():
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
+@app.route("/spotify/callback")
+def spot_callback():
+    # Don't reuse a SpotifyOAuth object because they store token info and you could leak user tokens if you reuse a SpotifyOAuth object
+    sp_oauth = spotipy.oauth2.SpotifyOAuth(client_id = SPOT_ID, client_secret = SPOT_SECRET, redirect_uri = SPOTIFY_REDIRECT_URI, scope = SCOPE)
+    code = request.args.get('code')
+    token_info = sp_oauth.get_access_token(code, check_cache=False)
+    #print(token_info)
+    # Saving the access token along with all other token related info
+    session["token_info"] = token_info
+    sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
+    user = sp.current_user()['id']
+    playlist = sp.user_playlist_create(user, session['event_id'], public=False)
+    playlist_id = playlist['id']
+    session['playlist_url'] = playlist['external_urls']['spotify']
+    sp.user_playlist_add_tracks(user, playlist_id, session['song_ids'])
+    return redirect(url_for("setlist"))
 
-
-
+@app.route("/spotify")
+def spot_log():
+    sp_oauth = spotipy.oauth2.SpotifyOAuth(client_id = SPOT_ID, client_secret = SPOT_SECRET, redirect_uri = SPOTIFY_REDIRECT_URI, scope = SCOPE)
+    auth_url = sp_oauth.get_authorize_url()
+    print(auth_url)
+    return redirect(auth_url)
 
 @app.route('/homepage', methods=["GET","POST"])
 def indexhome():
     if request.method == 'POST':
         session['artist_id'] = request.form['artist']
+        #print("yo")
         return redirect('show')
     return render_template('indexhome.html', name =  current_user.name, email = current_user.email, pic = current_user.profile_pic)
 
@@ -173,16 +204,25 @@ def show():
         return redirect('setlist')
     return render_template('shows.html', shows=shows)
 
-@app.route('/setlist')
+@app.route('/setlist', methods=['GET','POST'])
 def setlist():
     if 'event_id' in session:
+        playlist = 'No playlist created yet'
+        playlist_url = '/setlist'
+        if 'playlist_url' in session:
+            playlist_url = session['playlist_url']
+            playlist = 'See your created playlist!'
         songs = get_event_setlist(session['event_id'])
         access_token = spotify_authenticate()
         song_data = []
+        song_ids = []
         for song in songs:
             song_data.append(get_track(access_token, song, session['artist']))
-
-        return render_template('setlist.html', songs=song_data)
+        for song in song_data:
+            if len(song) == 3:
+                song_ids.append(song[2])
+        session['song_ids'] = song_ids
+        return render_template('setlist.html', songs=song_data, playlist = playlist, playlist_url = playlist_url)
     return 'Please fill out all previous forms'
 
 @app.route('/no_track')
