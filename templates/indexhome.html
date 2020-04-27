@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang = "en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AutoSetlist</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AutoSetlist</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
 
 <body>
-    <h3>name: {{ name }}</h3>
-    <h3>email: {{ email }}</h3>
-    <img src="{{ pic }}" alt="User Image">
-    <a class="button" href="/logout">Logout</a>
-
-
-
-
-
-
-    <form action="/homepage" method="POST">
-        <label for="artist">What artist did you see?</label>
-        <select id="artist", name="artist">
-            <option value="65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab">Metallica</option>
-            <option value="0383dadf-2a4e-4d10-a46a-e9e041da8eb3">Queen</option>
-            <option value="84dc4f23-c0b8-4fe1-bbca-a3993ddc8fc2">Primus</option>
-            <option value="2d781050-032a-4a4f-b0a9-7b4bc99449e1">Yaeji</option>
-            <option value="6faa7ca7-0d99-4a5e-bfa6-1fd5037520c6">Grateful Dead</option>
-            <option value="b53868c8-3654-41d3-91db-3c5a1237f0c3">Eric Johnson</option>
-            <option value="344bfb00-27f0-4ff2-b96b-048ed1c6a968">Polyphia</option>
-        </select>
-        <input type=submit value="submit">
-    </form>
+    <div class="container">
+        <div class="jumbotron">
+            <h3>name: {{ name }}</h3>
+            <h3>email: {{ email }}</h3>
+            <img src="{{ pic }}" alt="User Image">
+            <a class="button" href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
+            <form action="/homepage" method="POST">
+                <label for="artist">What artist did you see?</label>
+                <select id="artist", name="artist">
+                    <option value="65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab">Metallica</option>
+                    <option value="0383dadf-2a4e-4d10-a46a-e9e041da8eb3">Queen</option>
+                    <option value="84dc4f23-c0b8-4fe1-bbca-a3993ddc8fc2">Primus</option>
+                    <option value="2d781050-032a-4a4f-b0a9-7b4bc99449e1">Yaeji</option>
+                    <option value="6faa7ca7-0d99-4a5e-bfa6-1fd5037520c6">Grateful Dead</option>
+                    <option value="b53868c8-3654-41d3-91db-3c5a1237f0c3">Eric Johnson</option>
+                    <option value="344bfb00-27f0-4ff2-b96b-048ed1c6a968">Polyphia</option>
+                </select>
+                <input type=submit value="submit">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
