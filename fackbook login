@@ -1,0 +1,11 @@
+#need register in facebook
+def facebook_login():
+    
+    # initial access token
+    ACCESS_TOKEN = ''
+    
+    # import facebook # pip install facebook-sdk
+    import facebook
+    facebook_api = facebook.GraphAPI(ACCESS_TOKEN)
+    return facebook_api  
+    
