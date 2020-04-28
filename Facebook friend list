@@ -1,0 +1,19 @@
+def get_facebookFriend():
+from login import facebook_login
+from helper import pp
+facebook_api = facebook_login()
+# Execute a few sample queries
+print '---------------'
+print 'Me'
+print '---------------'
+pp(facebook_api.get_object('me'))
+print
+print '---------------'
+print 'My Friends'
+print '---------------'
+pp(facebook_api.get_connections('me', 'friends'))
+print
+print '---------------'
+print 'Social Web'
+print '---------------'
+pp(facebook_api.request("search", {'q': 'social web', 'type': 'page'}))
