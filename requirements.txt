@@ -10,7 +10,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 MarkupSafe==1.1.1
 requests==2.23.0
-urllib3==1.25.8
+urllib3==1.26.5
 Werkzeug==1.0.0
 certifi==2019.11.28
 cffi==1.14.0
@@ -29,5 +29,5 @@ pyOpenSSL==19.0.0
 requests==2.23.0
 six==1.14.0
 spotipy==2.11.2
-urllib3==1.25.8
+urllib3==1.26.5
 Werkzeug==1.0.0
